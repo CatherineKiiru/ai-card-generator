@@ -16,3 +16,5 @@ app.use('/api', cardRoutes);
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+//fix cors issue
