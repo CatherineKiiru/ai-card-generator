@@ -8,15 +8,22 @@ const App: React.FC = () => {
 
   const handleSubmit = async (message: string, occasion: string) => {
     try {
+      // Combine message and occasion into a prompt
+      const prompt = `Create a card with the message: "${message}" for the occasion: "${occasion}".`;
+
       const response = await fetch('https://api.openai.com/v1/images/generations', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $OPENAI_API_KEY'
-        
+          'Authorization': 'Bearer $OPENAI_API_KEY',
         },
-        body: JSON.stringify({ message, occasion }),
+        body: JSON.stringify({
+          prompt,          // Use the constructed prompt
+          n: 1,            // Number of images to generate (optional)
+          size: '1024x1024' // Image size (optional)
+        }),
       });
+
       const data = await response.json();
       setCardData(data);
     } catch (error) {

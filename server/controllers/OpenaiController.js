@@ -12,11 +12,12 @@ const generateCard = async (req, res) => {
     try {
         const contentCompletion = await openai.completions.create({
             model: "text-davinci-002",
-            prompt: `Generate a ${occasion} card message based on: ${message}`,
+            prompt: `Generate an ${occasion} card message based on: ${message}`,
             max_tokens: 100,
           });
           
           const cardContent = contentCompletion.data.choices[0].text?.trim() || ''; 
+          
           const imageResponse = await openai.images.generate({
             prompt: `A beautiful ${occasion} card with the text: "${cardContent}"`,
             n: 1,
