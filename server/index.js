@@ -1,9 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import cardRoutes from './routes/cardRoutes';
+import cardRoutes from './src/routes/CardRoutes';
 
 const app = express();
-const port = 3001;
+const dotenv = require('dotenv').config();
+const port = process.env.PORT || 3001;
+
+
 
 app.use(cors());
 app.use(express.json());
