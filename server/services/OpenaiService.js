@@ -2,8 +2,7 @@ import { OpenAI } from 'openai';
 
 // instantiate openAI API Key from .env
 const openai = new OpenAI({
-  // apiKey: process.env.OPENAI_API_KEY,
-  apiKey: "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"
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function generateCard(message, occasion) {
