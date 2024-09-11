@@ -15,21 +15,21 @@ const OpenaiController = async (req, res) => {
     size === 'small' ? '256x256' : size === 'medium' ? '512x512' : '1024x1024';
 
   try{
-    const contentCompletion = await openai.chat.completions.create({
-      messages:[
-        {
-          "role": "system", "content": `Generate an ${occasion} card message based on: ${message}`,
-        }
-      ],
-      model: "gpt-4o",
-      max_tokens: 64,
-    });
+    // const contentCompletion = await openai.chat.completions.create({
+    //   messages:[
+    //     {
+    //       "role": "system", "content": `Generate an ${occasion} card message based on: ${message}`,
+    //     }
+    //   ],
+    //   model: "gpt-4o",
+    //   max_tokens: 64,
+    // });
 
-    const messageContent = contentCompletion.choices[0].text?.trim() || '';
+    // const messageContent = contentCompletion.choices[0].text?.trim() || '';
 
     const createImage = await openai.images.generate({
       model: "dall-e-2",
-      prompt: "A white siamese cat with a moustache and wig",
+      prompt: "A white siamese cat with a wig",
       n: 1,
       size: imageSize
     });

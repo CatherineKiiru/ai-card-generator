@@ -5,13 +5,13 @@ import { CardData } from './types';
 
 const App: React.FC = () => {
   const [cardData, setCardData] = useState<CardData | null>(null);
-
+  
   const handleSubmit = async (message: string, occasion: string) => {
     try {
       // Combine message and occasion into a prompt
       const prompt = `Create a card with the message: "${message}" for this occasion: "${occasion}".`;
-
-      const response = await fetch('https://api.openai.com/v1/images/generations', {
+      
+      const response = await fetch('/openai/generateimages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ const App: React.FC = () => {
         body: JSON.stringify({
           prompt,          // Use the constructed prompt
           n: 1,            // Number of images to generate (optional)
-          size: '1024x1024' // Image size (optional)
+          // size: '1024x1024' // Image size (optional)
         }),
       });
 
