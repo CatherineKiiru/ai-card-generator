@@ -9,7 +9,7 @@ const App: React.FC = () => {
   const handleSubmit = async (message: string, occasion: string) => {
     try {
       // Combine message and occasion into a prompt
-      const prompt = `Create a card with the message: "${message}" for the occasion: "${occasion}".`;
+      const prompt = `Create a card with the message: "${message}" for this occasion: "${occasion}".`;
 
       const response = await fetch('https://api.openai.com/v1/images/generations', {
         method: 'POST',
@@ -24,8 +24,9 @@ const App: React.FC = () => {
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json()
       setCardData(data);
+
     } catch (error) {
       console.error('Error generating card:', error);
     }
