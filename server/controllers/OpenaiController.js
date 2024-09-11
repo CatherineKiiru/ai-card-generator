@@ -7,16 +7,26 @@ const openai = new OpenAI({
 });
 
 const OpenaiController = async (req, res) => {
+  const { message, occasion } = req.body
+
   try{
-    const response = await openai.images.generate({
+    const contentCompletion = await openai.chat.completions.create({
+      messages:`Generate an ${occasion} card message based on: ${message}`,
+      model: "gpt-4o",
+      max_tokens: 64,
+    });
+
+    const imageContent = contentCompletion.choices[0].text?.trim() || '';
+
+    const createImage = await openai.images.generate({
       model: "dall-e-3",
       prompt: 'Polar bear on ice skates',
       n: 1,
       size: '1024x1024'
     });
-    console.log(response.data);;
+    console.log(createImage.data);
 
-    const imageUrl = response.data.data[0].url
+    const imageUrl = createImage.data.data[0].url
 
     res.status(200).json({
       success: true,
@@ -33,38 +43,33 @@ const OpenaiController = async (req, res) => {
   }
   
 
-    // const { message, occasion} = req.body;
-    // const imageSize =
-    // size === 'small' ? '256x256' : size === 'medium' ? '512x512' : '1024x1024';
+   
+    size === 'small' ? '256x256' : size === 'medium' ? '512x512' : '1024x1024';
 
-    // try {
-    //     const contentCompletion = await openai.completions.create({
-    //         model: "text-davinci-002",
-    //         prompt: `Generate an ${occasion} card message based on: ${message}`,
-    //         max_tokens: 100,
-    //       });
-          
-    //       const cardContent = contentCompletion.data.choices[0].text?.trim() || ''; 
-          
-    //       const imageResponse = await openai.images.generate({
-    //         prompt: `A beautiful ${occasion} card with the text: "${cardContent}"`,
-    //         n: 1,
-    //         size: imageSize,
-    //       });
+    try {
         
-    //       const imageUrl = imageResponse.data.data[0].url;
+          
+          const cardContent = contentCompletion.data.choices[0].text?.trim() || ''; 
+          
+          const imageResponse = await openai.images.generate({
+            prompt: `A beautiful ${occasion} card with the text: "${cardContent}"`,
+            n: 1,
+            size: imageSize,
+          });
+        
+          const imageUrl = imageResponse.data.data[0].url;
 
-    //       res.status(200).json({
-    //         success: true,
-    //         data: imageUrl
-    //       })
+          res.status(200).json({
+            success: true,
+            data: imageUrl
+          })
     
-    //     } catch (error) {
-    //         res.status(400).json({
-    //             success: false,
-    //             error: 'Hmmm, no images returned, could you try it again?'
-    //           })
-    // }
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                error: 'Hmmm, no images returned, could you try it again?'
+              })
+    }
 }
 
 export default OpenaiController;
