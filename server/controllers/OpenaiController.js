@@ -11,7 +11,8 @@ const openai = new OpenAI({
 const OpenaiController = async (req, res) => {
   const { message, occasion, size } = req.body
 
-  
+  const imageSize =
+    size === 'small' ? '256x256' : size === 'medium' ? '512x512' : '1024x1024';
 
   try{
     // const contentCompletion = await openai.chat.completions.create({
